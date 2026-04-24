@@ -1850,7 +1850,18 @@ function sw(id, el) {
   // Re-init People + Priorities with Sheets data so ALL devices see the same state
   if (sheetsLoaded) {
     if (result.people)     window._initPeople(result.people);
-    if (result.priorities) window._initPriorities(result.priorities);
+    if (result.priorities) {
+      window._initPriorities(result.priorities);
+    } else {
+      // Sheets has no priorities yet — auto-seed it with current localStorage/default state
+      // so all devices stay in sync from this point forward
+      const ls = localStorage.getItem('axis_priorities_v2');
+      if (ls) {
+        sheetsPost('savePriorities', JSON.parse(ls))
+          .then(() => showSync('Priorities seeded to Sheets ✓'))
+          .catch(() => {});
+      }
+    }
   }
 
 })();
