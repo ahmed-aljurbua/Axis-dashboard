@@ -1549,7 +1549,7 @@ window._initPeople = function(sheetsORG) {
   };
 
 };
-window._initPeople(null); // render immediately with localStorage/defaults
+// _initPeople called by axisInit after Sheets fetch
 
 /* ══════════════════════════════════════════
    PRIORITIES v2
@@ -1723,7 +1723,7 @@ window._initPriorities = function(sheetsPRI) {
   };
 
 };
-window._initPriorities(null); // render immediately with localStorage/defaults
+// _initPriorities called by axisInit after Sheets fetch
 
 /* ══════════════════════════════════════════
    INLINE EDIT FUNCTIONS
@@ -1805,6 +1805,10 @@ function sw(id, el) {
   if (loadingEl) loadingEl.classList.add('visible');
   if (subLabel)  subLabel.textContent = 'Syncing with Google Sheets…';
 
+  // Show loading in Priorities + People tabs
+  const priRoot = document.getElementById('pri-root');
+  if (priRoot) priRoot.innerHTML = '<div style="padding:40px;text-align:center;color:#AAA;font-size:12px;">Loading from Google Sheets…</div>';
+
   let sheetsLoaded = false;
 
   try {
@@ -1847,20 +1851,18 @@ function sw(id, el) {
   renderRevenue();
   renderCosts();
 
-  // Re-init People + Priorities with Sheets data so ALL devices see the same state
-  if (sheetsLoaded) {
-    if (result.people)     window._initPeople(result.people);
-    if (result.priorities) {
-      window._initPriorities(result.priorities);
-    } else {
-      // Sheets has no priorities yet — auto-seed it with current localStorage/default state
-      // so all devices stay in sync from this point forward
-      const ls = localStorage.getItem('axis_priorities_v2');
-      if (ls) {
-        sheetsPost('savePriorities', JSON.parse(ls))
-          .then(() => showSync('Priorities seeded to Sheets ✓'))
-          .catch(() => {});
-      }
+  // Init People + Priorities — single call with Sheets data (or null fallback)
+  // This runs AFTER Sheets fetch so all devices always get the same data
+  window._initPeople(sheetsLoaded && result.people ? result.people : null);
+  window._initPriorities(sheetsLoaded && result.priorities ? result.priorities : null);
+
+  // If Sheets had no priorities yet, auto-seed from localStorage so other devices sync next load
+  if (sheetsLoaded && !result.priorities) {
+    const ls = localStorage.getItem('axis_priorities_v2');
+    if (ls) {
+      sheetsPost('savePriorities', JSON.parse(ls))
+        .then(() => showSync('Priorities seeded to Sheets ✓'))
+        .catch(() => {});
     }
   }
 
