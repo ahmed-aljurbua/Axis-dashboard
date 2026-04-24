@@ -1414,7 +1414,7 @@ function renderCosts() {
    PEOPLE — ORG CHART
    ORG is module-scoped but mutations save to Sheets
 ══════════════════════════════════════════ */
-(function initPeople(sheetsORG) {
+window._initPeople = function(sheetsORG) {
   const DC = { executive:'#0D0D0D', commercial:'#555555', operations:'#E8151B', finance:'#333333', bizdev:'#888888' };
 
   const DEFAULT_ORG = {
@@ -1548,13 +1548,14 @@ function renderCosts() {
     render(); saveOrgToSheets(); // ← saves to Sheets
   };
 
-})(window._sheetsORG || null); // pass Sheets ORG data when available
+};
+window._initPeople(null); // render immediately with localStorage/defaults
 
 /* ══════════════════════════════════════════
    PRIORITIES v2
    Saves to localStorage AND Google Sheets
 ══════════════════════════════════════════ */
-(function initPriorities(sheetsPRI) {
+window._initPriorities = function(sheetsPRI) {
   const LS = 'axis_priorities_v2';
   const CURRENT_Q = 2;
   const QUARTERS  = ['q1','q2','q3','q4'];
@@ -1721,7 +1722,8 @@ function renderCosts() {
     render(); save(); // ← saves to Sheets
   };
 
-})(window._sheetsPRI || null); // pass Sheets priorities when available
+};
+window._initPriorities(null); // render immediately with localStorage/defaults
 
 /* ══════════════════════════════════════════
    INLINE EDIT FUNCTIONS
@@ -1845,14 +1847,10 @@ function sw(id, el) {
   renderRevenue();
   renderCosts();
 
-  // If sheets had people/priorities, reload those tabs
-  // (They rendered on first load with defaults/localStorage;
-  //  if sheets returned different data, prompt user to refresh those tabs)
-  if (sheetsLoaded && (window._sheetsORG || window._sheetsPRI)) {
-    // Silently note that Sheets data is available for next refresh
-    // A full re-render of People + Priorities would require re-running their modules
-    // The simplest UX: show a subtle note that these tabs have fresh data on reload
-    console.log('[Axis Dashboard] People & Priorities: fresh Sheets data available on next page load.');
+  // Re-init People + Priorities with Sheets data so ALL devices see the same state
+  if (sheetsLoaded) {
+    if (result.people)     window._initPeople(result.people);
+    if (result.priorities) window._initPriorities(result.priorities);
   }
 
 })();
