@@ -356,6 +356,88 @@ body {
   .chart-card { padding: 16px; }
 }
 
+/* Hide verbose target text on small screens */
+@media (max-width: 600px) {
+  .target-full { display: none; }
+}
+
+/* ─── MOBILE OVERRIDES ───────────────────────────────── */
+@media (max-width: 768px) {
+  /* Header */
+  .header { height: auto; min-height: 54px; padding: 8px 16px; flex-wrap: wrap; gap: 8px; }
+  .logo-label { display: none; }
+  .logo-sep { display: none; }
+  .header-pills { flex-wrap: wrap; gap: 6px; }
+
+  /* Refresh button */
+  #refresh-btn { height: 28px !important; font-size: 10px !important; padding: 0 10px !important; }
+
+  /* Target pill — shorter on mobile */
+  #target-pill { font-size: 10px; padding: 0 8px; height: 28px; }
+  #target-pill .hpill-bar-abs { display: none; }
+
+  /* Nav — bigger touch targets */
+  .tab { padding: 12px 14px; font-size: 10px; }
+
+  /* Content */
+  .content { padding: 12px 12px 32px; }
+
+  /* KPI values */
+  .kpi-value { font-size: 26px; }
+  .kpi { padding: 14px 14px 12px; }
+
+  /* Charts — ensure they render */
+  canvas { max-width: 100% !important; }
+
+  /* Priority columns */
+  .pri-year { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .pri-card { padding: 8px 9px; }
+  .pri-card-title { font-size: 10px; }
+  .pri-mv-btn { min-width: 22px; height: 22px; }
+
+  /* Org chart */
+  .on-card { min-width: 130px; max-width: 170px; }
+  .on-name { font-size: 10px; }
+  .on-title { font-size: 8px; }
+
+  /* Tables — horizontal scroll */
+  .chart-card { overflow-x: auto; }
+  .tbl th, .tbl td { font-size: 11px; padding: 8px 8px 8px 0; }
+
+  /* Chart grid — single col */
+  .chart-grid-2 { grid-template-columns: 1fr; }
+
+  /* Sync badge */
+  #sync-badge { font-size: 9px !important; padding: 3px 7px !important; }
+}
+
+@media (max-width: 480px) {
+  /* Header — stack logo and pills */
+  .header { padding: 8px 12px; }
+  .logo-img { height: 26px; }
+
+  /* Target pill — minimal on very small screens */
+  #target-pill { display: none; }
+
+  /* KPI grid — always 2 col */
+  .kpi-grid { grid-template-columns: repeat(2, minmax(0,1fr)) !important; }
+
+  /* Priority columns — single col on very small */
+  .pri-year { grid-template-columns: 1fr; }
+  .pri-move-btns { display: none !important; }
+
+  /* Section headings */
+  .content > .section > div:first-child > div:first-child {
+    font-size: 18px !important;
+  }
+
+  /* Larger touch targets for buttons */
+  .edit-pri-btn, .edit-org-btn {
+    padding: 9px 16px;
+    font-size: 12px;
+  }
+}
+
 /* ─── TABLE ─────────────────────────────────────────── */
 .tbl { width:100%; border-collapse:collapse; }
 .tbl th {
@@ -618,7 +700,7 @@ body {
     <button onclick="refreshAll()" id="refresh-btn" title="Refresh all data from Google Sheets" style="height:32px;padding:0 12px;border-radius:6px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.7);font-size:11px;font-weight:600;cursor:pointer;letter-spacing:0.3px;display:flex;align-items:center;gap:5px;transition:background 0.15s;">↻ Refresh</button>
     <div class="hpill neutral" id="updated-pill"><span class="live-dot"></span>Last Updated: <span id="last-updated-text">--</span></div>
     <div class="hpill accent" id="target-pill" onclick="editTarget()" title="Click to update revenue target" style="cursor:pointer;">
-      2026 Target: SAR <span id="target-val-pill">18M</span> &nbsp;·&nbsp; <span id="target-pct-pill">41%</span> achieved
+      <span class="target-full">2026 Target: SAR <span id="target-val-pill">18M</span> &nbsp;·&nbsp; </span><span id="target-pct-pill">41%</span><span class="target-full"> achieved</span>
       <div class="hpill-bar-abs"><div class="hpill-bar" id="hpill-bar" style="width:41%;"></div></div>
     </div>
   </div>
@@ -836,10 +918,7 @@ body {
       <div style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;color:#111;letter-spacing:0.2px;">People &amp; Organisation</div>
       <div style="font-size:12px;color:#AAAAAA;margin-top:3px;font-weight:500;">Auto-saved to Google Sheets on every edit</div>
     </div>
-    <div style="display:flex;gap:8px;align-items:center;">
-      <button onclick="refreshPeople()" style="font-size:11px;font-weight:600;padding:7px 14px;border-radius:7px;border:1px solid var(--border2);background:var(--card);color:var(--t2);cursor:pointer;" title="Reload org from Google Sheets">↻ Refresh</button>
-      <button id="edit-org-btn" class="edit-org-btn" onclick="toggleOrgEdit()">Edit Org</button>
-    </div>
+    <button id="edit-org-btn" class="edit-org-btn" onclick="toggleOrgEdit()">Edit Org</button>
   </div>
   <div class="kpi-grid" style="grid-template-columns:repeat(4,minmax(0,1fr));">
     <div class="kpi accent"><div class="kpi-label">Management &amp; Staff</div><div class="kpi-value" id="p-mgmt">—</div><div class="kpi-delta nm">Office &amp; functional roles</div></div>
@@ -866,10 +945,7 @@ body {
       <div style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;color:#111;letter-spacing:0.2px;">2026 Annual Priorities</div>
       <div style="font-size:12px;color:#AAAAAA;margin-top:3px;font-weight:500;">Auto-saved to Google Sheets on every edit</div>
     </div>
-    <div style="display:flex;gap:8px;align-items:center;">
-      <button onclick="refreshPriorities()" style="font-size:11px;font-weight:600;padding:7px 14px;border-radius:7px;border:1px solid var(--border2);background:var(--card);color:var(--t2);cursor:pointer;" title="Reload priorities from Google Sheets">↻ Refresh</button>
-      <button id="edit-pri-btn" class="edit-pri-btn" onclick="togglePriEdit()">Edit Priorities</button>
-    </div>
+    <button id="edit-pri-btn" class="edit-pri-btn" onclick="togglePriEdit()">Edit Priorities</button>
   </div>
   <div class="kpi-grid" style="grid-template-columns:repeat(3,minmax(0,1fr));">
     <div class="kpi accent"><div class="kpi-label">Total Priorities</div><div class="kpi-value" id="pr-total">—</div><div class="kpi-delta nm">Across all 4 quarters</div></div>
@@ -1507,6 +1583,8 @@ window._initPeople = function(sheetsORG) {
   }
 
   render();
+  // Apply confirmed saudization from Sheets if available
+  if (DATA.saudization_pct) window.applySaudization(DATA.saudization_pct);
 
   function askSaudi(cur) {
     const ans = prompt('Saudi national? (y/n):', cur?'y':'n');
@@ -1764,6 +1842,8 @@ window.refreshAll = function() {
       // Re-render People + Priorities
       if (result.people)     try { window._initPeople(result.people); } catch(e) {}
       if (result.priorities) try { window._initPriorities(result.priorities); } catch(e) {}
+      // Apply confirmed saudization from Sheets
+      if (DATA.saudization_pct) window.applySaudization(DATA.saudization_pct);
       showSync('Everything refreshed ✓');
     } else {
       showSync('Refresh failed', true);
@@ -1820,12 +1900,17 @@ window.editTarget = function() {
   const val=parseFloat(raw);
   if(isNaN(val)||val<=0){ alert('Please enter a valid number (e.g. 20 for SAR 20M)'); return; }
   DATA.annual_target=val;
+  // Update display
   document.getElementById('target-val-pill').textContent=val+'M';
   const pct=Math.round((DATA.ytd_revenue/val)*100), rem=(val-DATA.ytd_revenue).toFixed(1);
   document.getElementById('target-pct-pill').textContent=pct+'%';
   document.getElementById('hpill-bar').style.width=pct+'%';
   const kpiCards=document.querySelectorAll('#section-financial .kpi');
   if(kpiCards[3]){ kpiCards[3].querySelector('.kpi-value').textContent=pct+'%'; kpiCards[3].querySelector('.kpi-delta').textContent=`SAR ${rem}M remaining to target`; kpiCards[3].querySelector('.target-bar').style.width=pct+'%'; }
+  // Save to Sheets (source of truth) + localStorage fallback
+  sheetsPost('saveConfig', {key:'annual_target', value:val})
+    .then(()=>showSync('Target saved to Sheets ✓'))
+    .catch(()=>showSync('Sheets save failed', true));
   try { localStorage.setItem('axis_annual_target',val); } catch(e){}
 };
 
@@ -1834,12 +1919,25 @@ window.editSaudi = function() {
   if(!raw) return;
   const val=parseFloat(raw);
   if(isNaN(val)||val<0||val>100){ alert('Please enter a number between 0 and 100'); return; }
-  document.getElementById('p-saudi').textContent=val+'%';
-  document.getElementById('p-saudi-sub').textContent='Confirmed · '+new Date().getFullYear();
-  document.getElementById('p-saudi-sub').className='kpi-delta up';
-  const saudiKpi=document.getElementById('p-saudi').closest('.kpi');
-  if(saudiKpi){ if(val<25) saudiKpi.classList.add('risk'); else saudiKpi.classList.remove('risk'); }
+  DATA.saudization_pct = val;
+  applySaudization(val);
+  // Save to Sheets (source of truth) + localStorage fallback
+  sheetsPost('saveConfig', {key:'saudization_pct', value:val})
+    .then(()=>showSync('Saudization saved to Sheets ✓'))
+    .catch(()=>showSync('Sheets save failed', true));
   try { localStorage.setItem('axis_saudi_pct',val); } catch(e){}
+};
+
+// Applies confirmed saudization % to the People tab display
+window.applySaudization = function(val) {
+  const el = document.getElementById('p-saudi');
+  const sub = document.getElementById('p-saudi-sub');
+  if (!el || !sub) return;
+  el.textContent = val + '%';
+  sub.textContent = 'Confirmed · ' + new Date().getFullYear();
+  sub.className = 'kpi-delta up';
+  const kpi = el.closest('.kpi');
+  if (kpi) { if(val<25) kpi.classList.add('risk'); else kpi.classList.remove('risk'); }
 };
 
 /* ── Restore persisted user-edited values ── */
