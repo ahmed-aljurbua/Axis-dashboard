@@ -615,7 +615,8 @@ body {
   <div class="header-pills">
     <!-- Sync status badge -->
     <span id="sync-badge"></span>
-    <div class="hpill neutral" id="updated-pill" onclick="stampNow()" title="Click to update timestamp" style="cursor:pointer;"><span class="live-dot"></span>Last Updated: <span id="last-updated-text">--</span></div>
+    <button onclick="refreshAll()" id="refresh-btn" title="Refresh all data from Google Sheets" style="height:32px;padding:0 12px;border-radius:6px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.7);font-size:11px;font-weight:600;cursor:pointer;letter-spacing:0.3px;display:flex;align-items:center;gap:5px;transition:background 0.15s;">↻ Refresh</button>
+    <div class="hpill neutral" id="updated-pill"><span class="live-dot"></span>Last Updated: <span id="last-updated-text">--</span></div>
     <div class="hpill accent" id="target-pill" onclick="editTarget()" title="Click to update revenue target" style="cursor:pointer;">
       2026 Target: SAR <span id="target-val-pill">18M</span> &nbsp;·&nbsp; <span id="target-pct-pill">41%</span> achieved
       <div class="hpill-bar-abs"><div class="hpill-bar" id="hpill-bar" style="width:41%;"></div></div>
@@ -1737,6 +1738,43 @@ window._initPriorities = function(sheetsPRI) {
 /* ══════════════════════════════════════════
    INLINE EDIT FUNCTIONS
 ══════════════════════════════════════════ */
+window.refreshAll = function() {
+  const btn = document.getElementById('refresh-btn');
+  if (btn) { btn.textContent = '↻ Syncing…'; btn.style.opacity = '0.6'; btn.disabled = true; }
+  showSync('↻ Syncing everything…');
+
+  sheetsGet('getAll').then(result => {
+    if (result && result.success) {
+      // Update financial data
+      if (result.financial) Object.assign(DATA, result.financial);
+      // Update timestamp
+      if (DATA.last_updated) document.getElementById('last-updated-text').textContent = DATA.last_updated;
+      // Update target pill
+      const pct = Math.round((DATA.ytd_revenue / DATA.annual_target) * 100);
+      document.getElementById('target-pct-pill').textContent = pct + '%';
+      document.getElementById('target-val-pill').textContent = DATA.annual_target + 'M';
+      document.getElementById('hpill-bar').style.width = pct + '%';
+      // Re-render all financial charts
+      try { renderFinancialKPIs(); } catch(e) {}
+      try { renderChart1(); } catch(e) {}
+      try { renderChart2(); } catch(e) {}
+      try { renderChart3(); } catch(e) {}
+      try { renderRevenue(); } catch(e) {}
+      try { renderCosts(); } catch(e) {}
+      // Re-render People + Priorities
+      if (result.people)     try { window._initPeople(result.people); } catch(e) {}
+      if (result.priorities) try { window._initPriorities(result.priorities); } catch(e) {}
+      showSync('Everything refreshed ✓');
+    } else {
+      showSync('Refresh failed', true);
+    }
+  }).catch(e => {
+    showSync('Refresh failed — ' + e.message, true);
+  }).finally(() => {
+    if (btn) { btn.textContent = '↻ Refresh'; btn.style.opacity = '1'; btn.disabled = false; }
+  });
+};
+
 window.refreshPeople = function() {
   const orgChart = document.getElementById('org-chart');
   if (orgChart) orgChart.innerHTML = '<div style="padding:40px;text-align:center;color:#AAA;font-size:12px;">Loading from Google Sheets…</div>';
@@ -1773,16 +1811,8 @@ window.refreshPriorities = function() {
   });
 };
 
-window.stampNow = function() {
-  const now=new Date(), pad=n=>String(n).padStart(2,'0');
-  const stamp=`${pad(now.getMonth()+1)}/${pad(now.getDate())}/${now.getFullYear()} ${pad(now.getHours())}:${pad(now.getMinutes())}`;
-  DATA.last_updated=stamp;
-  document.getElementById('last-updated-text').textContent=stamp;
-  try { localStorage.setItem('axis_last_updated',stamp); } catch(e){}
-  const pill=document.getElementById('updated-pill');
-  pill.style.background='rgba(22,163,74,0.15)'; pill.style.borderColor='rgba(22,163,74,0.4)';
-  setTimeout(()=>{ pill.style.background=''; pill.style.borderColor=''; },800);
-};
+// stampNow replaced by auto-stamp on Sheets sync
+window.stampNow = function() {};
 
 window.editTarget = function() {
   const raw=prompt(`Update 2026 Revenue Target (SAR Millions):\nCurrent: SAR ${DATA.annual_target}M`,DATA.annual_target);
@@ -1878,6 +1908,10 @@ function sw(id, el) {
         window._sheetsPRI = result.priorities;
       }
       sheetsLoaded = true;
+      // Auto-stamp last updated time
+      const now = new Date(), pad = n => String(n).padStart(2,'0');
+      const stamp = `${pad(now.getMonth()+1)}/${pad(now.getDate())}/${now.getFullYear()} ${pad(now.getHours())}:${pad(now.getMinutes())}`;
+      document.getElementById('last-updated-text').textContent = stamp;
       showSync('Sheets loaded ✓');
     }
   } catch(e) {
