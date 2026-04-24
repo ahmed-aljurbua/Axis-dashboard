@@ -1810,11 +1810,12 @@ function sw(id, el) {
   if (priRoot) priRoot.innerHTML = '<div style="padding:40px;text-align:center;color:#AAA;font-size:12px;">Loading from Google Sheets…</div>';
 
   let sheetsLoaded = false;
+  let result = null;
 
   try {
     showSync('↻ Syncing…');
     // Fetch all dashboard data in a single GAS call with timeout
-    const result = await withTimeout(sheetsGet('getAll'), SHEETS_TIMEOUT);
+    result = await withTimeout(sheetsGet('getAll'), SHEETS_TIMEOUT);
 
     if (result?.success) {
       // 1. Merge financial data fields
