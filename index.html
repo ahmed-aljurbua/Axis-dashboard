@@ -55,14 +55,7 @@ body {
   top: 0;
   z-index: 100;
 }
-.header-inner {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
+
 .logo {
   display: flex;
   align-items: center;
@@ -86,6 +79,10 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
+}
+/* Constrain header to content width so pills align with KPI grid */
+.header {
+  padding: 0 max(24px, calc((100% - 1200px) / 2));
 }
 .hpill {
   font-size: 11px;
@@ -696,7 +693,6 @@ body {
      HEADER
 ═══════════════════════════════════════════ -->
 <header class="header">
-  <div class="header-inner">
   <div class="logo">
     <svg width="90" height="30" viewBox="0 0 90 30" xmlns="http://www.w3.org/2000/svg" class="logo-img" style="mix-blend-mode:normal;">
       <text x="0" y="22" font-family="Barlow Condensed, Barlow, sans-serif" font-size="24" font-weight="800" letter-spacing="2" fill="#FFFFFF">AXIS</text>
@@ -714,7 +710,6 @@ body {
     <span id="target-val-pill" style="display:none;">18M</span>
     <span id="target-pct-pill" style="display:none;">41%</span>
     <div id="hpill-bar" style="display:none;width:41%;"></div>
-  </div>
   </div>
 </header>
 
