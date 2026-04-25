@@ -1510,7 +1510,10 @@ function renderRevenue() {
   if (D.client_change_this_month >= 0) { cdEl.textContent='↑ +'+D.client_change_this_month+' new this month'; cdEl.className='kpi-delta up'; }
   else { cdEl.textContent='↓ '+D.client_change_this_month+' this month'; cdEl.className='kpi-delta dn'; }
 
-  const SVC_COLORS = ['#E8151B','#A00010','#555555','#888888','#BBBBBB'];
+  // Force 4 correct business lines regardless of what Sheets returns
+  D.service_labels = ['Last-Mile Delivery','Inbound','Outbound','Storage'];
+  if (D.service_ytd && D.service_ytd.length > 4) D.service_ytd = D.service_ytd.slice(0,4);
+  const SVC_COLORS = ['#E8151B','#555555','#888888','#BBBBBB'];
   const legEl = document.getElementById('svc-legend');
   legEl.innerHTML = '';
   D.service_labels.forEach((lbl,i) => { legEl.innerHTML += `<div class="li"><div class="ld" style="background:${SVC_COLORS[i]};"></div>${lbl}</div>`; });
