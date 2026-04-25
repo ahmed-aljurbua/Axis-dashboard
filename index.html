@@ -718,6 +718,7 @@ body {
   <div class="tab" onclick="sw('revenue',this)">Revenue</div>
   <div class="tab" onclick="sw('costs',this)">Costs</div>
   <div class="tab" onclick="sw('people',this)">People</div>
+  <div class="tab" onclick="sw('operations',this)">Operations</div>
   <div class="tab" onclick="sw('priorities',this)">Priorities</div>
 </nav>
 
@@ -833,7 +834,7 @@ body {
   </div>
   <div class="chart-grid-2" style="margin-bottom:16px;">
     <div class="chart-card" style="margin-bottom:0;">
-      <div class="chart-header"><div><div class="chart-title">Revenue by Service Line</div><div class="chart-sub">YTD 2026 — SAR '000</div></div><div class="chart-badge neutral">2026 YTD</div></div>
+      <div class="chart-header"><div><div class="chart-title">Revenue by Business Line</div><div class="chart-sub">YTD 2026 — SAR '000</div></div><div class="chart-badge neutral">2026 YTD</div></div>
       <div class="legend" id="svc-legend"></div>
       <div style="position:relative;height:230px;"><canvas id="r1"></canvas></div>
     </div>
@@ -841,21 +842,20 @@ body {
       <div class="chart-header"><div><div class="chart-title">Top 10 Clients by Revenue</div><div class="chart-sub">Stacked by service line (SAR '000)</div></div><div class="chart-badge neutral">2026 YTD</div></div>
       <div class="legend">
         <div class="li"><div class="ld" style="background:#E8151B;"></div>Last-Mile</div>
-        <div class="li"><div class="ld" style="background:#A00010;"></div>Warehousing</div>
-        <div class="li"><div class="ld" style="background:#555555;"></div>Freight</div>
-        <div class="li"><div class="ld" style="background:#BBBBBB;"></div>Returns</div>
+        <div class="li"><div class="ld" style="background:#555555;"></div>Inbound</div>
+        <div class="li"><div class="ld" style="background:#888888;"></div>Outbound</div>
+        <div class="li"><div class="ld" style="background:#BBBBBB;"></div>Storage</div>
       </div>
       <div style="position:relative;height:290px;"><canvas id="r2"></canvas></div>
     </div>
   </div>
   <div class="chart-card" style="margin-bottom:16px;">
-    <div class="chart-header"><div><div class="chart-title">Monthly Revenue by Service Line</div><div class="chart-sub">Jan–Apr 2026 · stacked (SAR '000)</div></div><div class="chart-badge neutral">2026 YTD</div></div>
+    <div class="chart-header"><div><div class="chart-title">Monthly Revenue by Business Line</div><div class="chart-sub">Jan–Apr 2026 · stacked (SAR '000)</div></div><div class="chart-badge neutral">2026 YTD</div></div>
     <div class="legend">
       <div class="li"><div class="ld" style="background:#E8151B;"></div>Last-Mile</div>
-      <div class="li"><div class="ld" style="background:#A00010;"></div>Warehousing</div>
-      <div class="li"><div class="ld" style="background:#555555;"></div>Local Freight</div>
-      <div class="li"><div class="ld" style="background:#888888;"></div>Int'l Freight</div>
-      <div class="li"><div class="ld" style="background:#BBBBBB;"></div>Returns</div>
+      <div class="li"><div class="ld" style="background:#555555;"></div>Inbound</div>
+      <div class="li"><div class="ld" style="background:#888888;"></div>Outbound</div>
+      <div class="li"><div class="ld" style="background:#BBBBBB;"></div>Storage</div>
     </div>
     <div style="position:relative;height:240px;"><canvas id="r3"></canvas></div>
   </div>
@@ -871,7 +871,7 @@ body {
   <div class="chart-card">
     <div class="chart-header"><div><div class="chart-title">Client Revenue Detail</div><div class="chart-sub">Top 10 clients — YTD 2026</div></div><div class="chart-badge neutral">2026 YTD</div></div>
     <table class="tbl"><thead><tr><th style="width:24px;">#</th><th>Client</th><th>Sector</th><th>YTD Revenue</th><th>vs Last Month</th><th>Services</th><th>Revenue Bar</th></tr></thead><tbody id="client-table-body"></tbody></table>
-    <div style="font-size:9px;color:#BBBBBB;margin-top:10px;letter-spacing:0.5px;">LM = Last-Mile &nbsp;·&nbsp; WH = Warehousing &nbsp;·&nbsp; FR = Freight &nbsp;·&nbsp; RT = Returns</div>
+    <div style="font-size:9px;color:#BBBBBB;margin-top:10px;letter-spacing:0.5px;">LM = Last-Mile &nbsp;·&nbsp; IN = Inbound &nbsp;·&nbsp; OUT = Outbound &nbsp;·&nbsp; ST = Storage</div>
   </div>
 </section>
 
@@ -940,6 +940,159 @@ body {
       <div id="org-chart" style="position:relative;width:max-content;min-width:100%;"></div>
     </div>
   </div>
+</section>
+
+<!-- ── TAB: OPERATIONS ───────────────────── -->
+<section class="section" id="section-operations">
+  <div style="margin-bottom:10px;">
+    <div style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;color:#111;letter-spacing:0.2px;">Operations</div>
+    <div style="font-size:12px;color:#AAAAAA;margin-top:3px;font-weight:500;">Jan–Mar 2026 · 189,716 shipments · source: orders export</div>
+  </div>
+
+  <!-- KPI CARDS -->
+  <div class="kpi-grid">
+    <div class="kpi accent">
+      <div class="kpi-label">Total Shipments YTD</div>
+      <div class="kpi-value">189K</div>
+      <div class="kpi-delta up">↑ +37% Jan→Feb growth</div>
+    </div>
+    <div class="kpi accent">
+      <div class="kpi-label">Delivery Success Rate</div>
+      <div class="kpi-value">94.3<span style="font-size:18px;font-weight:600;color:var(--t2);">%</span></div>
+      <div class="kpi-delta up">↑ Aymakan best at 99.1%</div>
+    </div>
+    <div class="kpi accent">
+      <div class="kpi-label">Avg Fulfillment Speed</div>
+      <div class="kpi-value">33<span style="font-size:18px;font-weight:600;color:var(--t2);">hrs</span></div>
+      <div class="kpi-delta dn">↓ Only 38% shipped &lt;24hrs</div>
+    </div>
+    <div class="kpi accent">
+      <div class="kpi-label">Return to Origin Rate</div>
+      <div class="kpi-value">1.8<span style="font-size:18px;font-weight:600;color:var(--t2);">%</span></div>
+      <div class="kpi-delta nm">3,486 orders returned</div>
+    </div>
+  </div>
+
+  <!-- VOLUME CHART + CARRIER SHARE -->
+  <div class="chart-grid-2" style="margin-top:16px;">
+
+    <!-- Monthly Volume: 2026 vs 2025 -->
+    <div class="chart-card" style="margin-bottom:0;">
+      <div class="chart-header">
+        <div>
+          <div class="chart-title">Monthly Shipment Volume</div>
+          <div class="chart-sub">2026 vs 2025 · Dec 2025 is earliest available data</div>
+        </div>
+        <div class="chart-badge neutral">YoY</div>
+      </div>
+      <div class="legend">
+        <div class="li"><div class="ld" style="background:#E8151B;"></div>2026</div>
+        <div class="li"><div class="ld" style="background:#E5E7EF;"></div>2025</div>
+      </div>
+      <div style="position:relative;height:220px;">
+        <canvas id="op-vol" role="img" aria-label="Monthly shipment volume 2026 vs 2025">Jan 53K, Feb 73K, Mar 62K in 2026</canvas>
+      </div>
+    </div>
+
+    <!-- Carrier Share Donut -->
+    <div class="chart-card" style="margin-bottom:0;">
+      <div class="chart-header">
+        <div>
+          <div class="chart-title">Carrier Market Share</div>
+          <div class="chart-sub">% of total shipments Jan–Mar 2026</div>
+        </div>
+        <div class="chart-badge neutral">2026 YTD</div>
+      </div>
+      <div class="legend" id="op-carrier-legend"></div>
+      <div style="position:relative;height:190px;">
+        <canvas id="op-donut" role="img" aria-label="Carrier share donut">Sama Express 32%, SMSA 22%, Aramex 17%, Shipa 9%, Others 20%</canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARRIER PERFORMANCE -->
+  <div class="chart-card" style="margin-top:16px;">
+    <div class="chart-header">
+      <div>
+        <div class="chart-title">Carrier Delivery Success Rate</div>
+        <div class="chart-sub">% of shipments delivered · dark grey ≥96% · grey 93–96% · red &lt;93%</div>
+      </div>
+      <div class="chart-badge neutral">2026 YTD</div>
+    </div>
+    <div style="position:relative;height:280px;">
+      <canvas id="op-carrier-perf" role="img" aria-label="Carrier delivery rate horizontal bar chart">Aymakan 99.1% best, SMSA 91.7% worst</canvas>
+    </div>
+  </div>
+
+  <!-- GEOGRAPHY + ORDER OUTCOMES -->
+  <div class="chart-grid-2" style="margin-top:16px;">
+
+    <!-- Top Cities -->
+    <div class="chart-card" style="margin-bottom:0;">
+      <div class="chart-header">
+        <div>
+          <div class="chart-title">Top Delivery Cities</div>
+          <div class="chart-sub">Shipment volume Jan–Mar 2026</div>
+        </div>
+        <div class="chart-badge neutral">2026 YTD</div>
+      </div>
+      <div style="position:relative;height:260px;">
+        <canvas id="op-cities" role="img" aria-label="Top delivery cities horizontal bar">Riyadh 58K, Jeddah 21K, Dammam 7.6K</canvas>
+      </div>
+    </div>
+
+    <!-- Order Outcomes -->
+    <div class="chart-card" style="margin-bottom:0;">
+      <div class="chart-header">
+        <div>
+          <div class="chart-title">Order Outcomes</div>
+          <div class="chart-sub">% breakdown Jan–Mar 2026</div>
+        </div>
+        <div class="chart-badge neutral">2026 YTD</div>
+      </div>
+      <div style="position:relative;height:260px;">
+        <canvas id="op-outcomes" role="img" aria-label="Order outcomes donut chart">Delivered 94.3%, RTO 1.8%, Cancelled 1%</canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOP CLIENTS + PLATFORMS -->
+  <div class="chart-grid-2" style="margin-top:16px;">
+
+    <!-- Top clients by volume -->
+    <div class="chart-card" style="margin-bottom:0;">
+      <div class="chart-header">
+        <div>
+          <div class="chart-title">Top Clients by Shipment Volume</div>
+          <div class="chart-sub">Order count — not revenue</div>
+        </div>
+        <div class="chart-badge neutral">2026 YTD</div>
+      </div>
+      <div style="position:relative;height:280px;">
+        <canvas id="op-clients" role="img" aria-label="Top clients by shipment volume">Yoga store 29K, faisal aldayel 16.5K</canvas>
+      </div>
+    </div>
+
+    <!-- Platforms -->
+    <div class="chart-card" style="margin-bottom:0;">
+      <div class="chart-header">
+        <div>
+          <div class="chart-title">Order Platforms</div>
+          <div class="chart-sub">Where orders originate</div>
+        </div>
+        <div class="chart-badge neutral">2026 YTD</div>
+      </div>
+      <div style="position:relative;height:280px;">
+        <canvas id="op-platforms" role="img" aria-label="Order platforms donut chart">Salla 35%, Salla V2 33%, Zid 25%</canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- NOTE -->
+  <div style="margin-top:16px;padding:12px 16px;background:rgba(232,21,27,0.04);border:1px solid rgba(232,21,27,0.12);border-radius:8px;font-size:11px;color:#888;">
+    <strong style="color:#E8151B;">Data note:</strong> Based on orders export (Jan–Mar 2026 · 189,716 shipments). 2025 comparison limited — full historical data pending. Revenue per shipment, warehouse activity, and return reasons not yet available.
+  </div>
+
 </section>
 
 <!-- ── TAB 5: PRIORITIES ──────────────────── -->
@@ -1028,8 +1181,8 @@ body {
    avg_monthly_revenue, active_clients, client_change_this_month,
    top5_combined_ytd, service_labels, service_ytd,
    client_names, client_lm, client_wh, client_fr, client_rt,
-   client_table, svc_lm_monthly, svc_wh_monthly, svc_fr_monthly,
-   svc_if_monthly, svc_rt_monthly, shipments_2026, shipments_2025,
+   client_table, svc_lm_monthly, svc_in_monthly, svc_out_monthly, svc_st_monthly,
+   svc_st_monthly, shipments_2026, shipments_2025,
    avg_price_2026, avg_price_2025,
    total_costs_ytd, cost_per_shipment, labor_pct_revenue,
    warehouse_utilization, carrier_names, carrier_cost_ytd,
@@ -1138,8 +1291,8 @@ const DATA = {
   client_change_this_month: 3,
   top5_combined_ytd: 6850,
 
-  service_labels: ['Last-Mile Delivery','Warehousing & Fulfillment','Local Freight',"Int'l Freight",'Returns Mgmt'],
-  service_ytd:    [2815, 2294, 1332, 592, 370],
+  service_labels: ['Last-Mile Delivery','Inbound','Outbound','Storage'],
+  service_ytd:    [2815, 2294, 1332, 592],
 
   client_names:   ['Noon','Al-Dawaa','Jarir','Eyewa','Saco','Nahdi','Pure Harvest','Mumzworld','Luxury Closet','BinDawood'],
   client_lm:      [1200, 900, 800, 500, 400, 350, 200, 280, 200, 290],
@@ -1148,10 +1301,9 @@ const DATA = {
   client_rt:      [100,  200,   0, 100,   0,   0,   0,  90,   0,   0],
 
   svc_lm_monthly: [600, 655, 720, 840],
-  svc_wh_monthly: [490, 530, 590, 685],
-  svc_fr_monthly: [285, 310, 340, 395],
-  svc_if_monthly: [125, 135, 150, 175],
-  svc_rt_monthly: [ 80,  90,  90, 115],
+  svc_in_monthly: [490, 530, 590, 685],
+  svc_out_monthly: [285, 310, 340, 395],
+  svc_st_monthly:  [125, 135, 150, 175],
 
   client_table: [
     { name:'Noon',           sector:'E-commerce',      ytd:2100, mom:'+12%', services:'LM · WH · FR', share:'28%' },
@@ -1376,10 +1528,10 @@ function renderRevenue() {
   const r2 = document.getElementById('r2');
   if (Chart.getChart(r2)) Chart.getChart(r2).destroy();
   new Chart(r2, { type:'bar', data:{ labels:D.client_names, datasets:[
-    { label:'Last-Mile',  data:D.client_lm, backgroundColor:'#E8151B', borderRadius:2 },
-    { label:'Warehousing',data:D.client_wh, backgroundColor:'#A00010', borderRadius:2 },
-    { label:'Freight',    data:D.client_fr, backgroundColor:'#555555', borderRadius:2 },
-    { label:'Returns',    data:D.client_rt, backgroundColor:'#BBBBBB', borderRadius:2 }
+    { label:'Last-Mile', data:D.client_lm, backgroundColor:'#E8151B', borderRadius:2 },
+    { label:'Inbound',   data:D.client_wh, backgroundColor:'#555555', borderRadius:2 },
+    { label:'Outbound',  data:D.client_fr, backgroundColor:'#888888', borderRadius:2 },
+    { label:'Storage',   data:D.client_rt, backgroundColor:'#BBBBBB', borderRadius:2 }
   ]},
     options:{ responsive:true, maintainAspectRatio:false, indexAxis:'y',
       plugins:{ legend:{display:false}, tooltip:{ backgroundColor:'#fff', borderColor:'rgba(232,21,27,0.3)', borderWidth:1, titleColor:'#111', bodyColor:'#555', padding:12, callbacks:{label:ctx=>ctx.parsed.x>0?` ${ctx.dataset.label}: ${sarFmt(ctx.parsed.x)}`:null} } },
@@ -1391,11 +1543,10 @@ function renderRevenue() {
   const r3 = document.getElementById('r3');
   if (Chart.getChart(r3)) Chart.getChart(r3).destroy();
   new Chart(r3, { type:'bar', data:{ labels:D.months_ytd, datasets:[
-    { label:'Last-Mile',     data:D.svc_lm_monthly, backgroundColor:'#E8151B', borderRadius:2 },
-    { label:'Warehousing',   data:D.svc_wh_monthly, backgroundColor:'#A00010', borderRadius:2 },
-    { label:'Local Freight', data:D.svc_fr_monthly, backgroundColor:'#555555', borderRadius:2 },
-    { label:"Int'l Freight", data:D.svc_if_monthly, backgroundColor:'#888888', borderRadius:2 },
-    { label:'Returns',       data:D.svc_rt_monthly, backgroundColor:'#BBBBBB', borderRadius:2 }
+    { label:'Last-Mile', data:D.svc_lm_monthly,  backgroundColor:'#E8151B', borderRadius:2 },
+    { label:'Inbound',   data:D.svc_in_monthly,  backgroundColor:'#555555', borderRadius:2 },
+    { label:'Outbound',  data:D.svc_out_monthly, backgroundColor:'#888888', borderRadius:2 },
+    { label:'Storage',   data:D.svc_st_monthly,  backgroundColor:'#BBBBBB', borderRadius:2 }
   ]},
     options:{ responsive:true, maintainAspectRatio:false,
       plugins:{ legend:{display:false}, tooltip:{backgroundColor:'#fff',borderColor:'rgba(232,21,27,0.3)',borderWidth:1,titleColor:'#111',bodyColor:'#555',padding:12,callbacks:{label:ctx=>` ${ctx.dataset.label}: ${sarFmt(ctx.parsed.y)}`}} },
@@ -2018,6 +2169,300 @@ function alignHeader() {
 window.addEventListener('resize', alignHeader);
 // Run after DOM + fonts settle
 requestAnimationFrame(() => setTimeout(alignHeader, 100));
+
+/* ══════════════════════════════════════════
+   OPERATIONS TAB CHARTS
+══════════════════════════════════════════ */
+(function renderOperations() {
+  const OP = {
+    // Monthly volumes — 2026 actuals, 2025 only Dec available
+    months:       ['Sep','Oct','Nov','Dec','Jan','Feb','Mar'],
+    vol2026:      [null, null, null, null, 53815, 73566, 62335],
+    vol2025:      [10,   12,   4,    1106, null,  null,  null ],
+
+    // Carrier data
+    carrierNames: ['Sama Express','SMSA','Aramex','Shipa','Imile','Aymakan','Roz Express','Others'],
+    carrierShare: [32.2, 21.8, 17.3, 8.9, 7.9, 5.3, 3.4, 3.2],
+    carrierColors:['#E8151B','#A00010','#555555','#777777','#999999','#BBBBBB','#CCCCCC','#DDDDDD'],
+
+    // Carrier performance
+    perfNames:  ['Aymakan','Aramex','Shipa','Sama Express','Roz Express','Imile','Dan Logistics','SMSA'],
+    perfRates:  [99.1, 97.7, 96.8, 96.0, 95.7, 95.3, 93.0, 91.7],
+
+    // Cities (merged Arabic/English Riyadh + Jeddah)
+    cityNames:  ['Riyadh','Jeddah','Dammam','Mecca','Medina','Taif','Tabuk','GCC (Intl)'],
+    cityVols:   [58410, 21441, 7655, 6584, 5509, 4742, 3486, 3469],
+
+    // Outcomes
+    outcomeLabels: ['Delivered','Return to Origin','Cancelled','In Transit','Other'],
+    outcomeVals:   [94.3, 1.8, 1.0, 1.0, 1.9],
+    outcomeColors: ['#16A34A','#E8151B','#888888','#D97706','#BBBBBB'],
+
+    // Top clients
+    clientNames: ['Yoga store','faisal aldayel','Sarah Beauty','Ancy','Matjer AQ','Shaya Tea','Shoog Alfarhan'],
+    clientVols:  [28994, 16515, 14952, 13495, 11701, 11581, 10325],
+
+    // Platforms
+    platformNames: ['Salla','Salla V2','Zid','Custom','Alturki','Trendyol','Shopify'],
+    platformVols:  [67260, 62197, 46972, 2838, 1817, 584, 500],
+    platformColors:['#E8151B','#A00010','#555555','#888888','#AAAAAA','#CCCCCC','#DDDDDD'],
+  };
+
+  const GRID = 'rgba(0,0,0,0.05)';
+
+  // Build carrier legend
+  const legEl = document.getElementById('op-carrier-legend');
+  if (legEl) {
+    OP.carrierNames.forEach((n,i) => {
+      legEl.innerHTML += `<div class="li"><div class="ld" style="background:${OP.carrierColors[i]};"></div>${n}</div>`;
+    });
+  }
+
+  // ── Volume YoY bar chart — matches Financial Overview YoY style ──
+  const volCtx = document.getElementById('op-vol');
+  if (volCtx) {
+    new Chart(volCtx, {
+      type: 'bar',
+      data: {
+        labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+        datasets: [
+          {
+            label: '2025',
+            data: [null, null, null, null, null, null, null, null, 10, 12, 4, 1106],
+            backgroundColor: '#E5E7EF',
+            borderRadius: 3,
+            order: 2
+          },
+          {
+            label: '2026',
+            data: [53815, 73566, 62335, null, null, null, null, null, null, null, null, null],
+            backgroundColor: ['#E8151B','#E8151B','#E8151B','transparent','transparent','transparent','transparent','transparent','transparent','transparent','transparent','transparent'],
+            borderRadius: 3,
+            order: 1
+          }
+        ]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: 'index', intersect: false },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: '#fff', borderColor: 'rgba(232,21,27,0.3)', borderWidth: 1,
+            titleColor: '#111', bodyColor: '#555', padding: 12, boxPadding: 4,
+            callbacks: {
+              label: ctx => {
+                if (!ctx.parsed.y || ctx.parsed.y === null) return null;
+                return ` ${ctx.dataset.label}: ${ctx.parsed.y.toLocaleString()} shipments`;
+              },
+              afterBody: (items) => {
+                const v25 = items.find(i => i.dataset.label === '2025')?.parsed.y ?? 0;
+                const v26 = items.find(i => i.dataset.label === '2026')?.parsed.y;
+                if (!v26 || !v25) return [];
+                const growth = Math.round(((v26 - v25) / v25) * 100);
+                return ['', ` Growth: +${growth}% YoY`];
+              }
+            }
+          }
+        },
+        scales: {
+          x: { grid: { display: false }, ticks: { color: '#AAA' } },
+          y: { grid: { color: GRID }, ticks: { color: '#AAA', callback: v => v >= 1000 ? (v/1000).toFixed(0)+'K' : v } }
+        }
+      }
+    });
+  }
+
+  // ── Carrier share donut ───────────────────────────────
+  const donutCtx = document.getElementById('op-donut');
+  if (donutCtx) {
+    new Chart(donutCtx, {
+      type: 'doughnut',
+      data: {
+        labels: OP.carrierNames,
+        datasets: [{ data: OP.carrierShare, backgroundColor: OP.carrierColors, borderWidth: 0, hoverOffset: 6 }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false, cutout: '65%',
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: '#fff', borderColor: 'rgba(232,21,27,0.3)', borderWidth: 1,
+            titleColor: '#111', bodyColor: '#555', padding: 12,
+            callbacks: { label: ctx => ` ${ctx.label}: ${ctx.parsed}%` }
+          }
+        }
+      }
+    });
+  }
+
+  // ── Carrier performance horizontal bar ───────────────
+  const perfCtx = document.getElementById('op-carrier-perf');
+  if (perfCtx) {
+    new Chart(perfCtx, {
+      type: 'bar',
+      data: {
+        labels: OP.perfNames,
+        datasets: [{
+          label: 'Delivery Rate %',
+          data: OP.perfRates,
+          backgroundColor: OP.perfRates.map(r => r >= 96 ? '#555555' : r >= 93 ? '#888888' : '#E8151B'),
+          borderRadius: 4,
+          barThickness: 22,
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        indexAxis: 'y',
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: '#fff', borderColor: 'rgba(232,21,27,0.3)', borderWidth: 1,
+            titleColor: '#111', bodyColor: '#555', padding: 12,
+            callbacks: { label: ctx => ` ${ctx.parsed.x}% delivery rate` }
+          }
+        },
+        scales: {
+          x: {
+            grid: { color: GRID }, ticks: { color: '#AAA', callback: v => v + '%' },
+            min: 88, max: 100
+          },
+          y: { grid: { display: false }, ticks: { color: '#555', font: { size: 11 } } }
+        }
+      },
+      plugins: [{
+        id: 'perfLabels',
+        afterDatasetsDraw(chart) {
+          const ctx = chart.ctx;
+          chart.data.datasets[0].data.forEach((val, i) => {
+            const bar = chart.getDatasetMeta(0).data[i];
+            ctx.save();
+            ctx.fillStyle = '#555';
+            ctx.font = "500 11px 'Barlow', sans-serif";
+            ctx.textAlign = 'left';
+            ctx.fillText(val + '%', bar.x + 6, bar.y + 4);
+            ctx.restore();
+          });
+        }
+      }]
+    });
+  }
+
+  // ── Top cities horizontal bar ─────────────────────────
+  const cityCtx = document.getElementById('op-cities');
+  if (cityCtx) {
+    new Chart(cityCtx, {
+      type: 'bar',
+      data: {
+        labels: OP.cityNames,
+        datasets: [{
+          label: 'Shipments',
+          data: OP.cityVols,
+          backgroundColor: ['#E8151B','#A00010','#555555','#777777','#888888','#AAAAAA','#BBBBBB','#444444'],
+          borderRadius: 4,
+          barThickness: 20,
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        indexAxis: 'y',
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: '#fff', borderColor: 'rgba(232,21,27,0.3)', borderWidth: 1,
+            titleColor: '#111', bodyColor: '#555', padding: 12,
+            callbacks: { label: ctx => ` ${ctx.parsed.x.toLocaleString()} shipments` }
+          }
+        },
+        scales: {
+          x: { grid: { color: GRID }, ticks: { color: '#AAA', callback: v => v >= 1000 ? (v/1000).toFixed(0)+'K' : v } },
+          y: { grid: { display: false }, ticks: { color: '#555', font: { size: 11 } } }
+        }
+      }
+    });
+  }
+
+  // ── Order outcomes donut ──────────────────────────────
+  const outcomeCtx = document.getElementById('op-outcomes');
+  if (outcomeCtx) {
+    new Chart(outcomeCtx, {
+      type: 'doughnut',
+      data: {
+        labels: OP.outcomeLabels,
+        datasets: [{ data: OP.outcomeVals, backgroundColor: OP.outcomeColors, borderWidth: 0, hoverOffset: 6 }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false, cutout: '60%',
+        plugins: {
+          legend: { display: true, position: 'bottom', labels: { font: { size: 11 }, color: '#555', boxWidth: 10, padding: 10 } },
+          tooltip: {
+            backgroundColor: '#fff', borderColor: 'rgba(232,21,27,0.3)', borderWidth: 1,
+            titleColor: '#111', bodyColor: '#555', padding: 12,
+            callbacks: { label: ctx => ` ${ctx.label}: ${ctx.parsed}%` }
+          }
+        }
+      }
+    });
+  }
+
+  // ── Top clients horizontal bar ────────────────────────
+  const clientCtx = document.getElementById('op-clients');
+  if (clientCtx) {
+    new Chart(clientCtx, {
+      type: 'bar',
+      data: {
+        labels: OP.clientNames,
+        datasets: [{
+          label: 'Shipments',
+          data: OP.clientVols,
+          backgroundColor: ['#E8151B','#A00010','#555555','#777777','#888888','#AAAAAA','#BBBBBB'],
+          borderRadius: 4,
+          barThickness: 20,
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        indexAxis: 'y',
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: '#fff', borderColor: 'rgba(232,21,27,0.3)', borderWidth: 1,
+            titleColor: '#111', bodyColor: '#555', padding: 12,
+            callbacks: { label: ctx => ` ${ctx.parsed.x.toLocaleString()} orders` }
+          }
+        },
+        scales: {
+          x: { grid: { color: GRID }, ticks: { color: '#AAA', callback: v => v >= 1000 ? (v/1000).toFixed(0)+'K' : v } },
+          y: { grid: { display: false }, ticks: { color: '#555', font: { size: 11 } } }
+        }
+      }
+    });
+  }
+
+  // ── Platforms donut ───────────────────────────────────
+  const platCtx = document.getElementById('op-platforms');
+  if (platCtx) {
+    new Chart(platCtx, {
+      type: 'doughnut',
+      data: {
+        labels: OP.platformNames,
+        datasets: [{ data: OP.platformVols, backgroundColor: OP.platformColors, borderWidth: 0, hoverOffset: 6 }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false, cutout: '60%',
+        plugins: {
+          legend: { display: true, position: 'bottom', labels: { font: { size: 11 }, color: '#555', boxWidth: 10, padding: 10 } },
+          tooltip: {
+            backgroundColor: '#fff', borderColor: 'rgba(232,21,27,0.3)', borderWidth: 1,
+            titleColor: '#111', bodyColor: '#555', padding: 12,
+            callbacks: { label: ctx => ` ${ctx.label}: ${ctx.parsed.toLocaleString()} orders` }
+          }
+        }
+      }
+    });
+  }
+
+})();
 
 /* ══════════════════════════════════════════
    TAB SWITCHING
