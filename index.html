@@ -717,8 +717,8 @@ body {
   <div class="tab active" onclick="sw('financial',this)">Financial Overview</div>
   <div class="tab" onclick="sw('revenue',this)">Revenue</div>
   <div class="tab" onclick="sw('costs',this)">Costs</div>
-  <div class="tab" onclick="sw('people',this)">People</div>
   <div class="tab" onclick="sw('operations',this)">Operations</div>
+  <div class="tab" onclick="sw('people',this)">People</div>
   <div class="tab" onclick="sw('priorities',this)">Priorities</div>
 </nav>
 
@@ -954,12 +954,12 @@ body {
     <div class="kpi accent">
       <div class="kpi-label">Total Shipments YTD</div>
       <div class="kpi-value">189K</div>
-      <div class="kpi-delta up">↑ +37% Jan→Feb growth</div>
+      <div class="kpi-delta nm">↑ +37% Jan→Feb growth</div>
     </div>
     <div class="kpi accent">
       <div class="kpi-label">Delivery Success Rate</div>
       <div class="kpi-value">94.3<span style="font-size:18px;font-weight:600;color:var(--t2);">%</span></div>
-      <div class="kpi-delta up">↑ Aymakan best at 99.1%</div>
+      <div class="kpi-delta nm">↑ Aymakan best at 99.1%</div>
     </div>
     <div class="kpi accent">
       <div class="kpi-label">Avg Fulfillment Speed</div>
@@ -2186,7 +2186,7 @@ requestAnimationFrame(() => setTimeout(alignHeader, 100));
     // Carrier data
     carrierNames: ['Sama Express','SMSA','Aramex','Shipa','Imile','Aymakan','Roz Express','Others'],
     carrierShare: [32.2, 21.8, 17.3, 8.9, 7.9, 5.3, 3.4, 3.2],
-    carrierColors:['#E8151B','#A00010','#555555','#777777','#999999','#BBBBBB','#CCCCCC','#DDDDDD'],
+    carrierColors:['#E8151B','#444444','#666666','#777777','#888888','#999999','#AAAAAA','#CCCCCC'],
 
     // Carrier performance
     perfNames:  ['Aymakan','Aramex','Shipa','Sama Express','Roz Express','Imile','Dan Logistics','SMSA'],
@@ -2199,7 +2199,7 @@ requestAnimationFrame(() => setTimeout(alignHeader, 100));
     // Outcomes
     outcomeLabels: ['Delivered','Return to Origin','Cancelled','In Transit','Other'],
     outcomeVals:   [94.3, 1.8, 1.0, 1.0, 1.9],
-    outcomeColors: ['#16A34A','#E8151B','#888888','#D97706','#BBBBBB'],
+    outcomeColors: ['#0D0D0D','#E8151B','#888888','#555555','#BBBBBB'],
 
     // Top clients
     clientNames: ['Yoga store','faisal aldayel','Sarah Beauty','Ancy','Matjer AQ','Shaya Tea','Shoog Alfarhan'],
@@ -2208,7 +2208,7 @@ requestAnimationFrame(() => setTimeout(alignHeader, 100));
     // Platforms
     platformNames: ['Salla','Salla V2','Zid','Custom','Alturki','Trendyol','Shopify'],
     platformVols:  [67260, 62197, 46972, 2838, 1817, 584, 500],
-    platformColors:['#E8151B','#A00010','#555555','#888888','#AAAAAA','#CCCCCC','#DDDDDD'],
+    platformColors:['#E8151B','#444444','#666666','#888888','#AAAAAA','#BBBBBB','#CCCCCC'],
   };
 
   const GRID = 'rgba(0,0,0,0.05)';
@@ -2340,7 +2340,7 @@ requestAnimationFrame(() => setTimeout(alignHeader, 100));
           chart.data.datasets[0].data.forEach((val, i) => {
             const bar = chart.getDatasetMeta(0).data[i];
             ctx.save();
-            ctx.fillStyle = '#555';
+            ctx.fillStyle = '#333';
             ctx.font = "500 11px 'Barlow', sans-serif";
             ctx.textAlign = 'left';
             ctx.fillText(val + '%', bar.x + 6, bar.y + 4);
@@ -2361,7 +2361,7 @@ requestAnimationFrame(() => setTimeout(alignHeader, 100));
         datasets: [{
           label: 'Shipments',
           data: OP.cityVols,
-          backgroundColor: ['#E8151B','#A00010','#555555','#777777','#888888','#AAAAAA','#BBBBBB','#444444'],
+          backgroundColor: ['#E8151B','#444444','#555555','#666666','#777777','#888888','#999999','#AAAAAA'],
           borderRadius: 4,
           barThickness: 20,
         }]
@@ -2418,7 +2418,7 @@ requestAnimationFrame(() => setTimeout(alignHeader, 100));
         datasets: [{
           label: 'Shipments',
           data: OP.clientVols,
-          backgroundColor: ['#E8151B','#A00010','#555555','#777777','#888888','#AAAAAA','#BBBBBB'],
+          backgroundColor: ['#E8151B','#444444','#555555','#666666','#777777','#888888','#AAAAAA'],
           borderRadius: 4,
           barThickness: 20,
         }]
