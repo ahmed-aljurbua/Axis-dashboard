@@ -80,10 +80,7 @@ body {
   align-items: center;
   gap: 8px;
 }
-/* Constrain header to content width so pills align with KPI grid */
-.header {
-  padding: 0 max(24px, calc((100% - 1200px) / 2));
-}
+
 .hpill {
   font-size: 11px;
   font-weight: 500;
@@ -2005,6 +2002,23 @@ window.applySaudization = function(val) {
   const savedSaudi=localStorage.getItem('axis_saudi_pct');
   if(savedSaudi) window._savedSaudiPct=parseFloat(savedSaudi);
 })();
+
+/* ══════════════════════════════════════════
+   HEADER ALIGNMENT — align pills with KPI grid right edge
+══════════════════════════════════════════ */
+function alignHeader() {
+  const content = document.querySelector('.content');
+  const header  = document.querySelector('.header');
+  if (!content || !header) return;
+  const cRect = content.getBoundingClientRect();
+  // Right padding = distance from content right edge to viewport right
+  const rightPad = Math.max(24, window.innerWidth - cRect.right);
+  header.style.paddingRight = rightPad + 'px';
+  header.style.paddingLeft  = Math.max(24, cRect.left) + 'px';
+}
+window.addEventListener('resize', alignHeader);
+// Run after DOM + fonts settle
+requestAnimationFrame(() => setTimeout(alignHeader, 100));
 
 /* ══════════════════════════════════════════
    TAB SWITCHING
